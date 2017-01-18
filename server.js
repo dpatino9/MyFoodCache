@@ -67,15 +67,6 @@ app.use(passport.session());
 // =============================================================
 // Initiate the Facebook Authentication
 
-app.get("/home", function(req, res) {
-  res.render("home");
-});
-
-app.get("/search", function(req, res) {
-  res.render("search");
-});
-
-
 app.get("/auth/facebook", passport.authenticate("facebook"));
 
 // When Facebook is done, it uses the below route to determine where to go
@@ -85,9 +76,8 @@ app.get("/auth/facebook/callback", passport.authenticate("facebook", { failureRe
     res.redirect("/search");
   });
 
-// var routes = require("./controllers/foodCache_controller.js");
-
-// app.use('/', routes);
+var routes = require("./controllers/foodCache_controller.js");
+app.use('/', routes);
 
 // =============================================================
 // LISTENING
