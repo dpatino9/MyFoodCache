@@ -27,7 +27,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
   <script>
     $( document ).ready(function() {
-      console.log( "ready!" );
+      console.log("ready!");
 
       // Setup your axios with the base url of the API and headers for json support.
       // You'll only need this crossorigin proxy if you haven't enabled (CORS) https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
@@ -44,7 +44,7 @@
         .then(function (res) {
           console.log(res.data);
           for (var i = 0; i <= res.data.results.length; i++) {
-            console.log(res.data.results[i].title)
+            console.log(res.data.results[i]);
           }
         })
         .catch(function (error) {
