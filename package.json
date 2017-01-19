@@ -1,0 +1,24 @@
+{
+  "name": "myfoodcache",
+  "version": "1.0.0",
+  "description": "This web app will allow a user to input some groceries they have and will generate recipes that will include the groceries the user entered ",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dpatino9/MyFoodCache.git"
+  },
+  "author": "Adriana, Eddy, Phil, Diego",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dpatino9/MyFoodCache/issues"
+  },
+  "homepage": "https://github.com/dpatino9/MyFoodCache#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "express-handlebars": "^3.0.0"
+  }
+}
