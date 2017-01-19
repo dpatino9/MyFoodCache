@@ -10,23 +10,18 @@ var Strategy = require("passport-facebook").Strategy;
 var PORT = process.env.PORT || 8080;
 
 
-// Connection pending JawsDB or use of Mongo DB??
-// Connection Info for MySQL DB ??
-var connection = mysql.createConnection({
-  port: 3306,
-  host: "",
-  user: "",
-  password: "",
-  database: ""
+// Database configuration with mongoose
+mongoose.connect('mongodb://dpatino:cooltech@ds129018.mlab.com:29018/heroku_zzx0p7zj');
+var db = mongoose.connection;
+
+// show any mongoose errors
+db.on('error', function(err) {
+    console.log('Mongoose Error: ', err);
 });
 
-// Connect to MySQL DB
-connection.connect(function(err) {
-  if (err) {
-    console.error("error connecting: " + err.stack);
-    return;
-  }
-  console.log("connected as id " + connection.threadId);
+// once logged in to the db through mongoose, log a success message
+db.once('open', function() {
+    console.log('Mongoose connection successful.');
 });
 
 // Passport / Facebook Authentication Information
