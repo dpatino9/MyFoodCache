@@ -105,6 +105,12 @@ app.get( '/auth/google/callback',
         failureRedirect: '/home'
 }));
 
+app.get('/logout', function(req, res) {
+    console.log("logged out!");
+    req.logout();
+    res.redirect('/home');
+});
+
 var routes = require("./controllers/foodCache_controller.js");
 app.use('/', routes);
 
