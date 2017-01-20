@@ -28,7 +28,6 @@
   //Console displays "Ready"
     $( document ).ready(function() {
       console.log( "ready!" );
-
       // Setup your axios with the base url of the API and headers for json support.
       // You'll only need this crossorigin proxy if you haven't enabled (CORS) https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
       //Note: I enabled CORS to run this API call, and when CORS is enabled, it prevents updates to Github.
@@ -45,10 +44,7 @@
             'Content-Type': 'application/json'
         }
       });
-
       recipeAPI.get("/").then(function(data){console.log(data.data.results)})
-
-
     //   recipeAPI.get('/?i=turkey&p=3')
     //     .then(function (res) {
     //       console.log(res);
@@ -60,7 +56,6 @@
     //       console.log(error);
     //     });
     });
-
   </script>  
 </body>
 </html>
