@@ -19,10 +19,5 @@ router.get("/home", function(req, res) {
 
 });
 
-router.get("/search", function(req, res) {
-
-  res.render("search");
-
-});
 
 module.exports = router;

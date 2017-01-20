@@ -10,19 +10,26 @@ body{
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
+    font-family: 'Roboto', sans-serif;
+
 
 
 }
-
-.loginFB{
+.loginText{
     font-size: 30px;
-    color: #000;
+    color: #212121;
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
+
 }
 
-.fb-btn{
-    border-radius: 25px;
-    
+.main-modal{
+    margin-top: 100px;
+    padding: 25px;
+    border-radius: 10px;
+    background: rgba(255,255,255, 0.8);
 }
+
 .questions{
     font-family: 'Oswald', sans-serif;
     font-size: 60px;
