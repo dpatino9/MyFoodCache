@@ -11,9 +11,36 @@
  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js">
  <!-- FONT -->
 <link href="https://fonts.googleapis.com/css?family=Oswald:700" rel="stylesheet">
+ <!-- FONT AWESOME-->
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
 <body>
+<nav class="navStyle">
+	<div class="nav-wrapper">
+		<div class="left"><a href="#" class="brand-logo"><i class="fa fa-cutlery right" aria-hidden="true"></i>MyFoodCache</a></div>
+		<ul id="nav-mobile" class="right hide-on-med-and-down">
+		<li class="light-green darken-3"><a id="modalIntructions" href="#modalIntructions">How does it work?</a></li>
+		<li class="purple darken-3 button-collapse" data-activates="slide-out"><a href="#"  >My saved recipes</a></li>
+		<li class="deep-orange darken-3"><a href="collapsible.html">Sign out</a></li>
+		</ul>
+	</div>
+	{{!-- instructions modadl --}}
+	<div id="modalIntructions" class="modal main-modal">
+		<div class="modal-content instructions-format">
+			<h2>Welcome to MyFoodCache!</h2>
+			All you need to do is enter the ingredients you have in  your pantry and  click submit then BOOM! Recipes will be generated based on which ingredients you entered so you can get to cooking!
+			We'll tell you any ingredients you will need to buy for each recipe and you can also save your favorite recipes for next time, Enjoy!
+		</div>
+	</div> {{!-- end modal --}}
 
+	{{!-- favorite recipes --}}
+  <ul id="slide-out" class="side-nav">
+  	<h2>My Favorites <i class="fa fa-heart red-text" aria-hidden="true"></i></h2>
+  	{{!-- dynamically add favorite recipes here --}}
+    <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
+  </ul>
+</nav>
 	{{{body}}}
 
 <!--Import jQuery before materialize.js-->
