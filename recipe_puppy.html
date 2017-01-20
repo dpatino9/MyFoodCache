@@ -8,8 +8,7 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
-//This HTML calls recipepuppy.com and GETs ten recipes with the requested ingredients.
-//Note: I am working on expanding the search and breaking recipes down by ingredients  
+
   <div class="container">
     <div class="row">
       <div class="col s12 m6 offset-m6" style="margin-top: 200px">
@@ -26,32 +25,37 @@
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
   <script>
+  //Console displays "Ready"
     $( document ).ready(function() {
-      console.log("ready!");
-
+      console.log( "ready!" );
       // Setup your axios with the base url of the API and headers for json support.
       // You'll only need this crossorigin proxy if you haven't enabled (CORS) https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
+      //Note: I enabled CORS to run this API call, and when CORS is enabled, it prevents updates to Github.
+      //Optional Parameters:
+        // i : comma delimited ingredients
+        // q : normal search query
+        // p : page
+        // format=xml : if you want xml instead of json 
+      //Note: after the initial "/?/", you can use "&i" to add ingredients. The API appears to return recipes with at least two of the ingredients.
       var recipeAPI = axios.create({
-        baseURL: 'https://crossorigin.me/http://www.recipepuppy.com/api',
+        baseURL: 'http://www.recipepuppy.com/api/?q=chicken&i=garlic&i=soy sauce&ishrimp&i=ginger&p=3',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         }
       });
-
-
-      recipeAPI.get('/?i=onions,garlic&q=omelet&p=3')
-        .then(function (res) {
-          console.log(res.data);
-          for (var i = 0; i <= res.data.results.length; i++) {
-            console.log(res.data.results[i]);
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      recipeAPI.get("/").then(function(data){console.log(data.data.results)})
+    //   recipeAPI.get('/?i=turkey&p=3')
+    //     .then(function (res) {
+    //       console.log(res);
+    //       for (var i = 0; i <= res.data.results.length; i++) {
+    //         console.log(res.data.results[i].title)
+    //       }
+    //     })
+    //     .catch(function (error) {
+    //       console.log(error);
+    //     });
     });
-
   </script>  
 </body>
 </html>
