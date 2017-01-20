@@ -87,7 +87,11 @@ app.get("/auth/facebook", passport.authenticate("facebook"));
 app.get("/auth/facebook/callback", passport.authenticate("facebook", { failureRedirect: "/home" }),
 
   function(req, res) {
-    res.redirect("/search");
+    res.redirect("/pantry");
+});
+
+app.get('/pantry', function(req, res) {
+    res.render('pantry', {layout: 'pantryMain.handlebars'});
 });
 
 app.get('/auth/google',
@@ -97,7 +101,7 @@ app.get('/auth/google',
  
 app.get( '/auth/google/callback', 
     passport.authenticate( 'google', { 
-        successRedirect: '/search',
+        successRedirect: '/pantry',
         failureRedirect: '/home'
 }));
 
