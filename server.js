@@ -9,12 +9,26 @@ var exphbs = require("express-handlebars");
 var session = require("express-session");
 var passport = require("passport");
 var Strategy = require("passport-facebook").Strategy;
+var GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
+ 
+passport.use(new GoogleStrategy({
+    clientID:     "514893017557-0rbdhgs517g1m4d3c86vablmkjd6f0vs.apps.googleusercontent.com",
+    clientSecret: "bjTkzbL1QLsjR0FfACCWcA-1",
+    callbackURL: "http://localhost:4000/auth/google/callback",
+    passReqToCallback: true
+  },
+  function(request, accessToken, refreshToken, profile, cb) {
+   
+    return cb(null, profile);
+   
+  }
+));
 
 passport.use(new Strategy({
   clientID: process.env.CLIENT_ID || "249143522177082",
   clientSecret: process.env.CLIENT_SECRET || "4ed1e5f4b50c4edd504300f35d9b094a",
   callbackURL: "http://localhost:4000/auth/facebook/callback",
-  profileFields: ['id', 'displayName', 'photos', 'email']
+  profileFields: ["id", "displayName", "photos", "email"]
 },
   function(accessToken, refreshToken, profile, cb) {
     return cb(null, profile);
@@ -74,7 +88,18 @@ app.get("/auth/facebook/callback", passport.authenticate("facebook", { failureRe
 
   function(req, res) {
     res.redirect("/search");
-  });
+});
+
+app.get('/auth/google',
+  passport.authenticate('google', { scope: 
+    [ 'https://www.googleapis.com/auth/plus.login' ] }
+));
+ 
+app.get( '/auth/google/callback', 
+    passport.authenticate( 'google', { 
+        successRedirect: '/search',
+        failureRedirect: '/home'
+}));
 
 var routes = require("./controllers/foodCache_controller.js");
 app.use('/', routes);
