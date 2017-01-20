@@ -19,4 +19,18 @@ $( "#mainSubmit" ).click(function() {
 	$('#main-content').empty();
 });
 
+//instrucions 
+$( "#modalIntructions" ).click(function() {
+	$('.modal').modal();
 });
+
+// favorite recipes
+$(".button-collapse").sideNav();
+
+
+$( ".button-collapse" ).click(function() {
+	$('.brand-logo').hide();
+});
+
+});
+

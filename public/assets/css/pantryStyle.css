@@ -1,4 +1,64 @@
 body{
-	background-color: #212121;
+	background-color: #000;
 	color: #FFF;
+    background-image: url(../images/pantryBG.jpg);
+    height: 100vh;
+    position: relative;
+    text-align: center;
+    width: 100%;
+    min-height: 450px;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    font-family: 'Roboto', sans-serif;
+}
+
+.navStyle{
+
+	background:rgba(0,0,0, 0.8);
+}
+
+nav .brand-logo {
+    padding-left: 18px;
+}
+
+.main-modal{
+	margin-top: 100px;
+    padding: 25px;
+    border-radius: 10px;
+    background: rgba(255,255,255, 0.8);
+    color: #212121;
+    line-height: 1.5;
+}
+
+.main-modal h2{
+    font-size: 35px;
+    color: #b5003a;
+    font-weight: bold;
+}
+
+nav .button-collapse {
+    height: auto;
+    margin: 0;
+}
+
+.side-nav{
+
+    background: rgba(0,0,0, 0.8);
+    color: #FFF;
+
+}
+
+.side-nav a{
+	color: #FFF;
+}
+
+.red-text{
+	color:#FF0;
+}
+
+.side-nav h2 {
+    font-size: 3;
+    font-size: 34px;
+    margin-top: 18px;
 }
