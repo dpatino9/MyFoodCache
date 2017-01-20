@@ -1,0 +1,49 @@
+body{
+	background-color: #000;
+	color: #FFF;
+    background-image: url(../images/mainTwo.jpg);
+    height: 100vh;
+    position: relative;
+    text-align: center;
+    width: 100%;
+    min-height: 450px;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+
+
+}
+
+.loginFB{
+    font-size: 30px;
+    color: #000;
+}
+
+.fb-btn{
+    border-radius: 25px;
+    
+}
+.questions{
+    font-family: 'Oswald', sans-serif;
+    font-size: 60px;
+    padding: 20px;
+    margin-top: 90px;
+}
+
+.enterButton{
+	font-size:30px;
+	border-radius: 50px;
+	color:#FFF;
+}
+
+.btn:hover, .btn-large:hover {
+     background-color: #b5003a; 
+}
+
+.firebrick{
+	background-color:#b5003a;
+}
+
+.modal-content{
+	color: #000;
+}
