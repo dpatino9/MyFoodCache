@@ -29,8 +29,22 @@ $(".button-collapse").sideNav();
 
 
 $( ".button-collapse" ).click(function() {
-	$('.brand-logo').hide();
+
 });
+
+// $(function() {
+//     $(document).on('click', function(e) {
+//         if (e.target.id == '.button-collapse') {
+//             // alert('Div Clicked !!');
+//             $( ".button-collapse" ).click(function() {
+// 				$('.brand-logo').hide();
+// 			});
+//         } else {
+//             $('.brand-logo').show();
+//         }
+
+//     })
+// });
 
 });
 
