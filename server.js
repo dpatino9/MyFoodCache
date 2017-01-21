@@ -10,6 +10,10 @@ var session = require("express-session");
 var passport = require("passport");
 var Strategy = require("passport-facebook").Strategy;
 var GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
+
+// Database configuration
+var mongoose = require("mongoose");
+var logger = require("morgan");
  
 passport.use(new GoogleStrategy({
     clientID:     "514893017557-0rbdhgs517g1m4d3c86vablmkjd6f0vs.apps.googleusercontent.com",
@@ -66,6 +70,18 @@ app.use(bodyParser.text());
 app.use(bodyParser.json({type:"application/vnd.api+json"}));
 app.use(methodOverride());
 
+// Mongoose mpromise deprecated - use bluebird promises
+var Promise = require("bluebird");
+
+mongoose.Promise = Promise;
+
+var User = require("./schemas/userSchema.js");
+
+app.use(logger("dev"));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
+
 // Incorporated a variety of Express packages.
 app.use(require("morgan")("combined"));
 app.use(require("cookie-parser")());
@@ -74,6 +90,20 @@ app.use(require("express-session")({ secret: "keyboard cat", resave: true, saveU
 // Here we start our Passport process and initiate the storage of sessions (i.e. closing browser maintains user)
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Database configuration with mongoose
+mongoose.connect("mongodb://localhost/myFoodCache");
+var db = mongoose.connection;
+
+// Show any mongoose errors
+db.on("error", function(error) {
+  console.log("Mongoose Error: ", error);
+});
+
+// Once logged in to the db through mongoose, log a success message
+db.once("open", function() {
+  console.log("Mongoose connection successful.");
+});
 
 
 // =============================================================
@@ -90,7 +120,13 @@ app.get("/auth/facebook/callback", passport.authenticate("facebook", { failureRe
     res.redirect("/pantry");
 });
 
-app.get('/pantry', function(req, res) {
+app.get('/pantry',require("connect-ensure-login").ensureLoggedIn(), function(req, res) {
+
+    //Facebook Values And Google Values
+    console.log("name: " + req.user.displayName);
+    console.log("photo: " + req.user.photos[0].value);
+    console.log("id: " + req.user.id);
+
     res.render('pantry', {layout: 'pantryMain.handlebars'});
 });
 
