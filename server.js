@@ -129,7 +129,7 @@ app.get('/pantry',require("connect-ensure-login").ensureLoggedIn(), function(req
 
     res.render('pantry', {layout: 'pantryMain.handlebars'});
 });
-
+  
 app.get('/auth/google',
   passport.authenticate('google', { scope: 
     [ 'https://www.googleapis.com/auth/plus.login' ] }
