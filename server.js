@@ -1,56 +1,43 @@
-var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
-var express = require('express');
-var path = require('path');
-var app = express();
+// =============================================================
+// DEPENDENCIES
+// =============================================================
+var express = require("express");
+var path = require("path");
+var bodyParser = require("body-parser");
+var methodOverride = require("method-override");
+var exphbs = require("express-handlebars");
+var session = require("express-session");
 var passport = require("passport");
 var Strategy = require("passport-facebook").Strategy;
+var GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
 
+// Database configuration
+var mongoose = require("mongoose");
+var logger = require("morgan");
+ 
+passport.use(new GoogleStrategy({
+    clientID:     "514893017557-0rbdhgs517g1m4d3c86vablmkjd6f0vs.apps.googleusercontent.com",
+    clientSecret: "bjTkzbL1QLsjR0FfACCWcA-1",
+    callbackURL: "http://localhost:4000/auth/google/callback",
+    passReqToCallback: true
+  },
+  function(request, accessToken, refreshToken, profile, cb) {
+   
+    return cb(null, profile);
+   
+  }
+));
 
-var PORT = process.env.PORT || 8080;
-
-
-// Database configuration with mongoose
-mongoose.connect('mongodb://dpatino:cooltech@ds129018.mlab.com:29018/heroku_zzx0p7zj');
-var db = mongoose.connection;
-
-// show any mongoose errors
-db.on('error', function(err) {
-    console.log('Mongoose Error: ', err);
-});
-
-// once logged in to the db through mongoose, log a success message
-db.once('open', function() {
-    console.log('Mongoose connection successful.');
-});
-
-// Passport / Facebook Authentication Information
 passport.use(new Strategy({
-  clientID: process.env.CLIENT_ID || "988726484566421",
-  clientSecret: process.env.CLIENT_SECRET || "088c94113e7b633bebdb6947ad2d36ae",
-  callbackURL: "http://localhost:3002/login/facebook/return"
+  clientID: process.env.CLIENT_ID || "249143522177082",
+  clientSecret: process.env.CLIENT_SECRET || "4ed1e5f4b50c4edd504300f35d9b094a",
+  callbackURL: "http://localhost:4000/auth/facebook/callback",
+  profileFields: ["id", "displayName", "photos", "email"]
 },
   function(accessToken, refreshToken, profile, cb) {
-    // In this example, the user"s Facebook profile is supplied as the user
-    // record.  In a production-quality application, the Facebook profile should
-    // be associated with a user record in the application"s database, which
-    // allows for account linking and authentication with other identity
-    // providers.
     return cb(null, profile);
   }));
 
-
-// Configure Passport authenticated session persistence.
-//
-// In order to restore authentication state across HTTP requests, Passport needs
-// to serialize users into and deserialize users out of the session.  In a
-// production-quality application, this would typically be as simple as
-// supplying the user ID when serializing, and querying the user record by ID
-// from the database when deserializing.  However, due to the fact that this
-// example does not have a database, the complete Facebook profile is serialized
-// and deserialized.
-//
-// If the above doesn"t make sense... don"t worry. I just copied and pasted too.
 passport.serializeUser(function(user, cb) {
   cb(null, user);
 });
@@ -59,96 +46,190 @@ passport.deserializeUser(function(obj, cb) {
   cb(null, obj);
 });
 
+// =============================================================
+// GLOBAL VARIABLES
+// =============================================================
+var PORT = process.env.PORT || 4000;
+var app = express();
 
-// Create a new express application.
+// =============================================================
+// USE A STATIC ADDRESS FOR LOCAL PACKAGES
+// =============================================================
+app.use(express.static(process.cwd() + "/public"));
 
+// =============================================================
+// USE MIDDLEWARE
+// =============================================================
+app.set("views", __dirname + "/views");
+app.engine("handlebars", exphbs({defaultLayout: "main"}));
+app.set("view engine", "handlebars");
+app.use(methodOverride("_method"));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.text());
+app.use(bodyParser.json({type:"application/vnd.api+json"}));
+app.use(methodOverride());
+
+// Mongoose mpromise deprecated - use bluebird promises
+var Promise = require("bluebird");
+
+mongoose.Promise = Promise;
+
+var User = require("./schemas/user.js");
+
+app.use(logger("dev"));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 
 // Incorporated a variety of Express packages.
 app.use(require("morgan")("combined"));
 app.use(require("cookie-parser")());
-app.use(require("body-parser").urlencoded({ extended: true }));
 app.use(require("express-session")({ secret: "keyboard cat", resave: true, saveUninitialized: true }));
 
 // Here we start our Passport process and initiate the storage of sessions (i.e. closing browser maintains user)
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Database configuration with mongoose
+mongoose.connect("mongodb://dpatino:cooltech@ds129018.mlab.com:29018/heroku_zzx0p7zj");
+var db = mongoose.connection;
 
-// Routes
+// Show any mongoose errors
+db.on("error", function(error) {
+  console.log("Mongoose Error: ", error);
+});
+
+// Once logged in to the db through mongoose, log a success message
+db.once("open", function() {
+  console.log("Mongoose connection successful.");
+});
+
+// // We'll create a new user by using the User model as a class
+// // The "unique" rule in the User model's schema will prevent duplicate users from being added to the server
+// var exampleUser = new User({
+//   name: "Ernest Hemingway"
+// });
+// // Using the save method in mongoose, we create our example user in the db
+// exampleUser.save(function(error, doc) {
+//   // Log any errors
+//   if (error) {
+//     console.log(error);
+//   }
+//   // Or log the doc
+//   else {
+//     console.log(doc);
+//   }
+// });
+
+//Get all of the saved Users
+// app.get("/api/grab", function(req, res){
+//     console.log("made it to api grab route");
+//     User.find({})          
+//         .exec(function(err, doc) {
+//             if (err) {
+//                 console.log(err);
+//             }
+//             else {
+//                 res.send(doc);
+//             }
+//         })
+// })
+
+// Code for saving Users
+// app.post("/api/users", function(req, res){
+
+//     var newUser = new User(req.doc);
+//     console.log(req.doc);
+
+//     newUser.save(function(err, doc) {
+//         if (err) {
+//             console.log(err);
+//         }
+
+//         else {
+//             res.send(doc);
+//         }
+//     });
+
+//     console.log("You made a post request");
+// });
+
 // =============================================================
-
-// View the Main Page
-app.get("/", function(req, res) {
-  res.sendFile(path.join(__dirname, "index.html"));
-});
-
-// View the Login Page
-app.get("/login", function(req, res) {
-  res.sendFile(path.join(__dirname, "login.html"));
-});
-
+// ROUTES
+// =============================================================
 // Initiate the Facebook Authentication
-app.get("/user", passport.authenticate("facebook"));
 
-// Initiate the Facebook Authentication
-app.get("/washer", passport.authenticate("facebook"));
+app.get("/auth/facebook", passport.authenticate("facebook"));
 
 // When Facebook is done, it uses the below route to determine where to go
-app.get("/login/facebook/return",
-  passport.authenticate("facebook", { failureRedirect: "/user" }),
+app.get("/auth/facebook/callback", passport.authenticate("facebook", { failureRedirect: "/home" }),
 
   function(req, res) {
-    res.redirect("/");
-  });
+    res.redirect("/pantry");
+});
 
-// This page is available for viewing a hello message
-app.get("/inbox",
-  require("connect-ensure-login").ensureLoggedIn(),
-  function(req, res) {
+app.get('/pantry',require("connect-ensure-login").ensureLoggedIn(), function(req, res) {
 
-    res.sendFile(path.join(__dirname, "inbox.html"));
+    //Facebook Values And Google Values
+    console.log("name: " + req.user.displayName);
+    console.log("photo: " + req.user.photos[0].value);
+    console.log("id: " + req.user.id);
 
-  });
+    res.render('pantry', {layout: 'pantryMain.handlebars'});
 
-// This route is available for retrieving the information associated with the authentication method
-app.get("/api/inbox",
-  require("connect-ensure-login").ensureLoggedIn(),
-  function(req, res) {
-
-    var queryString = "SELECT * FROM table_of_users WHERE user_id=" + req.user.id;
-    connection.query(queryString, function(err, data) {
-
-      if(err) throw err
-
-      if (data.length == 0) { 
-
-        console.log("HEY");
-        // INSERT INTO actors (name, coolness_points, attitude) VALUES ("Jerry", 90, "relaxed")
-        var paramsToInsert = "'" + req.user.id + "'" + "," + "'" + req.user.displayName + "'" + "," + "'" + "You have no mail. You may want to make some friends." + "'"
-        var insertString = "INSERT INTO table_of_users(user_id, name, mail) VALUES (" + paramsToInsert + ")";
-
-        console.log(insertString);
-        connection.query(insertString, function(err, data){
-
-            if(err) throw err
-        })
-
-
-app.use(express.static('app/public'));
-
-// parse application/x-www-form-urlencoded 
-app.use(bodyParser.urlencoded({ extended: false }));
+});
+  
+app.get('/auth/google',
+  passport.authenticate('google', { scope: 
+    [ 'https://www.googleapis.com/auth/plus.login' ] }
+));
  
-// parse application/json 
-app.use(bodyParser.json());
+app.get( '/auth/google/callback', 
+    passport.authenticate( 'google', { 
+        successRedirect: '/pantry',
+        failureRedirect: '/home'
+}));
 
+app.get('/logout', function(req, res) {
+    console.log("logged out!");
+    req.logout();
+    res.redirect('/home');
+});
+var User = require("./schemas/user.js");
+// get all users
+app.get('/api/grab', function index(req, res) {
+  // find all users in db
+  db.User.find({}, function (err, allUsers) {
+    if (err) {
+      res.status(500).json({ error: err.message });
+    } else {
+      res.json({ users: allUsers });
+    }
+  });
+});
 
-//require('./app/routing/api-routes.js')(app); 
+// create new user
+app.post('/api/users', function create(req, res) {
+  // create new user with form data (`req.body`)
+  var newUser = new db.User(req.body);
 
-require ('./app/routing/api-routes.js')(app);
-require('./app/routing/html-routes.js')(app);
+  // save new User in db
+  newUser.save(function(err, savedUser) {
+    if (err) {
+      res.status(500).json({ error: err.message });
+    } else {
+      res.json(savedUser);
+    }
+  });
+});
 
- 
-app.listen(PORT,function(){
-  console.log("MyFoodCache App is running on Port: "+PORT);
+var routes = require("./controllers/foodCache_controller.js");
+app.use('/', routes);
+
+// =============================================================
+// LISTENING
+// =============================================================
+app.listen(PORT, function() {
+  console.log("App listening on PORT: " + PORT);
 });
