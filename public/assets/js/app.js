@@ -12,6 +12,12 @@ $( document ).ready(function() {
 
 	});
 
+// visibility
+function hiddenDisplay() {
+    document.getElementById("pantry-hide").style.display = "none";
+}
+
+
 	//mainSubmit
 
 	$( "#mainSubmit" ).click(function() {
@@ -32,7 +38,8 @@ $( document ).ready(function() {
 	});
 
 	$("#pantry-submit").on("click", function(){
-
+		
+		
 		var counter = 0;
 
 		var apiUrl = "";
@@ -60,6 +67,7 @@ $( document ).ready(function() {
 			    }, function(data, status){
 
 
+
 			    	for(var i = 0; i < data.length; i++){
 
 			    		$(".recipe-container").append("<div class='col l12 card'><div class'card-image'><img src='"+ data[i].thumbnail+"'/><span class='card-title text-1'>"+ data[i].title +"</span></div><div class='card-content'>"+ data[i].ingredients +"</div></div>");
@@ -68,12 +76,13 @@ $( document ).ready(function() {
 
 			        console.log(data[i].ingredients);
 
+
 			    });
 
 			}
 
 		});
-
+hiddenDisplay();
 	})
 
 
