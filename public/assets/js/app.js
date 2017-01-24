@@ -15,6 +15,8 @@ $( document ).ready(function() {
 // visibility
 function hiddenDisplay() {
     document.getElementById("pantry-hide").style.display = "none";
+    document.getElementById("recipe-show").style.display = "block";
+
 }
 
 
@@ -70,9 +72,16 @@ function hiddenDisplay() {
 
 			    	for(var i = 0; i < data.length; i++){
 
-			    		$(".recipe-container").append("<div class='col l12 card'><div class'card-image'><img src='"+ data[i].thumbnail+"'/><span class='card-title text-1'>"+ data[i].title +"</span></div><div class='card-content'>"+ data[i].ingredients +"</div></div>");
-			    		$("text-1").css("color","black");
+			    		$(".recipe-container").append('<div class="recipe-thumbail"><img src="'+ data[i].thumbnail+'"></div><div class="recipe-title">'+ data[i].title +'</div><div class="recipe-ingredients">'+ data[i].ingredients+ '<br><a href="'+data[i].href+'">Get this recipe</a><br><a href="#">Save<i class="fa fa-heart red-text" aria-hidden="true"></a><hr>');
+			    		$(".text-1").css("color","black");
 			    	}	
+
+			    	
+			    		// + data[i].thumbnail+
+			    		// + data[i].title +
+			    		// + data[i].ingredients +
+
+			    	// </div>
 
 			        console.log(data[i].ingredients);
 
