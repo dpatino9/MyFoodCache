@@ -47,6 +47,9 @@ input{
 }
 /*PANTRY CONTENT*/
 
+.pantry-hide{
+
+}
 .pantry-content{
 	border-radius: 3px;
     background: rgba(0,0,0, 0.92);
