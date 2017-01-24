@@ -38,6 +38,13 @@ nav .brand-logo {
     font-weight: bold;
 }
 
+.col-pad{
+/*    margin: 3px;*/
+}
+
+input{
+    width: 95%!important;
+}
 /*PANTRY CONTENT*/
 
 .pantry-content{

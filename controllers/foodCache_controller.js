@@ -21,6 +21,7 @@ router.get("/home", function(req, res) {
 
 });
 
+
 router.post("/api", function(req, res) {
 
 	console.log(req.body);
@@ -65,5 +66,6 @@ router.post("/api", function(req, res) {
           }
         })
     });	
+
 
 module.exports = router;

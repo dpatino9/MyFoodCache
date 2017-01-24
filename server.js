@@ -127,6 +127,10 @@ app.get('/pantry',require("connect-ensure-login").ensureLoggedIn(), function(req
     console.log("photo: " + req.user.photos[0].value);
     console.log("id: " + req.user.id);
 
+    
+
+    var array=["Chicke", "Garlic", "Tomatos"];
+
     res.render('pantry', {layout: 'pantryMain.handlebars'});
 });
   
