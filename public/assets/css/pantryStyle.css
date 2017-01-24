@@ -42,6 +42,10 @@ nav .brand-logo {
 /*    margin: 3px;*/
 }
 
+#recipe-show{
+    display: none;
+}
+
 input{
     width: 95%!important;
 }
