@@ -12,6 +12,12 @@ $( document ).ready(function() {
 
 	});
 
+// visibility
+function hiddenDisplay() {
+    document.getElementById("pantry-hide").style.display = "none";
+}
+
+
 	//mainSubmit
 
 	$( "#mainSubmit" ).click(function() {
@@ -32,7 +38,8 @@ $( document ).ready(function() {
 	});
 
 	$("#pantry-submit").on("click", function(){
-
+		
+		
 		var counter = 0;
 
 		var apiUrl = "";
@@ -59,14 +66,15 @@ $( document ).ready(function() {
 			        searchQuery: apiUrl
 			    }, function(data, status){
 
-			        console.log(data);
+
+			        console.log("first recipe:", data[0].title);
 
 			    });
 
 			}
 
 		});
-
+hiddenDisplay();
 	})
 
 
