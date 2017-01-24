@@ -19,5 +19,12 @@ router.get("/home", function(req, res) {
 
 });
 
+//API 
+router.get("/api/recipes", function(req, res) {
+
+	console.log(res);
+
+});
+
 
 module.exports = router;
