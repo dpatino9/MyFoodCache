@@ -36,7 +36,6 @@ function hiddenDisplay() {
 	$(".button-collapse").sideNav();
 
 	$( ".button-collapse" ).click(function() {
-		$(".brand-logo").hide();
 	});
 
 	$("#pantry-submit").on("click", function(){
