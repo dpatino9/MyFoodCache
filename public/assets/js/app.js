@@ -67,7 +67,15 @@ function hiddenDisplay() {
 			    }, function(data, status){
 
 
-			        console.log("first recipe:", data[0].title);
+
+			    	for(var i = 0; i < data.length; i++){
+
+			    		$(".recipe-container").append("<div class='col l12 card'><div class'card-image'><img src='"+ data[i].thumbnail+"'/><span class='card-title text-1'>"+ data[i].title +"</span></div><div class='card-content'>"+ data[i].ingredients +"</div></div>");
+			    		$("text-1").css("color","black");
+			    	}	
+
+			        console.log(data[i].ingredients);
+
 
 			    });
 
